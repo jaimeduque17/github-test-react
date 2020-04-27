@@ -1,11 +1,11 @@
 import React from 'react';
-import Gist from './Gist'
+import moment from 'moment';
+import Gist from './Gist';
 
-const GistsList = (props) => {
+const GistsList = ({ gists }) => {
 
-    const { gists } = props
     return (
-        <div style={{ paddingTop: '100px' }}>
+        <div style={{ paddingTop: '10px' }}>
             {
                 gists.map(gist => {
                     return (
@@ -13,9 +13,9 @@ const GistsList = (props) => {
                             <Gist
                                 id={gist.id}
                                 name={gist.owner.login}
-                                year={gist.created_at}
-                                description={gist.description}
-                                photo={gist.owner.avatar_url === 'N/A' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1024px-Imagen_no_disponible.svg.png' : gist.owner.avatar_url}
+                                year={moment(gist.created_at).format('L')}
+                                description={gist.description && gist.description.length > 30 ? `${gist.description.substring(0, 30)}...` : gist.description}
+                                photo={gist.owner.avatar_url === '' ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1024px-Imagen_no_disponible.svg.png' : gist.owner.avatar_url}
                             />
                         </div>
                     )
