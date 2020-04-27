@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import Search from '../ui/Search';
 import Navigation from './Navigation';
-import Button from '../ui/Button';
 import Github from '../../assets/images/github.png';
 
 const MainHeader = styled.div`
