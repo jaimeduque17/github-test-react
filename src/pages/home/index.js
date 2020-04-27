@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import GistsList from '../../components/layout/GistsList';
 import Search from '../../components/ui/Search';
@@ -12,29 +12,35 @@ const Container = styled.div`
 
 function Home() {
 
-    const [usedSearch, setUsedSearch] = useState(false);
-    const [results, setResults] = useState([]);
+    const [search, setSearch] = useState('');
+    const [gist, setGist] = useState([]);
 
-    const _handleResults = (results) => {
-        setResults(results)
-        setUsedSearch(true)
-    }
+    useEffect(() => {
+        const consultAPI = async () => {
 
-    const _renderResults = () => {
-        return results.length === 0
-            ? <h6><span role="img" aria-label="sad-face"> 😞 </span>Sorry, results not found!</h6>
-            : <GistsList gists={results} />
-    }
+            if (search === '') return;
+
+            const url = `https://api.github.com/users/${search}/gists`;
+
+            const response = await fetch(url);
+            const result = await response.json();
+
+            setGist(result);
+            console.log('result', result[0])
+
+        }
+        consultAPI();
+
+    }, [search]);
 
     return (
         <Container>
             <div className="SearchForm-wrapper">
-                <Search onResult={_handleResults} />
+                <Search setSearch={setSearch} />
             </div>
-            {usedSearch
-                ? _renderResults()
-                : <small>Use the form to search a gist</small>
-            }
+            <div>
+                <GistsList gists={gist} />
+            </div>
         </Container>
     )
 }
