@@ -1,76 +1,44 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Gist from '../layout/Gist';
+import Error404 from '../layout/404';
 
 const Form = styled.form`
     display: flex;
-    padding: 1rem;
+    padding: 2rem;
     justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 `
 
-const InputSubmit = styled.button`
-    height: 3rem;
-    width: 3rem;
-    display: block;
-    background-size: 4rem;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: 1rem;
-    top: 1px;
-    background-color: white;
-    border: none;
-    text-indent: -9999px;
+function Search({setSearch}) {
 
-    &:hover {
-        cursor: pointer;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState(false);
+
+    const searchImage = (e) => {
+        e.preventDefault();
+
+        // validate
+        if (searchTerm === '') {
+            setError(true);
+            return;
+        }
+
+        // send the term to the main component
+        setError(false);
+        setSearch(searchTerm);
     }
-`
-
-const API_KEY = '20cb1df1'
-
-function Search(props) {
-
-    const [inputMovie, setInputMovie] = useState('');
-    // const [data, setData] = useState([]);
-
-    const _handleChange = (e) => {
-        setInputMovie(e.target.value)
-    }
-
-    const _handleSubmit = (e) => {
-        e.preventDefault()
-        // setData(data)
-
-        fetch(`https://api.github.com/users/${inputMovie}/gists`)
-            .then(res => res.json())
-            .then(results => {
-                // const { data = [] } = results
-                console.log(results)
-                
-                // props.onResults(data)
-            })
-    }
-
-    // useEffect(() => {
-    //     _handleSubmit()
-    // }, [])
-
-    // const _handleSubmit = async () => {
-    //     // e.preventDefault()
-    //     const data = await fetch(`https://api.github.com/users/${inputMovie}/gists`)
-    //     const users = await data.json()
-    //     setJaja(users)
-    // }
 
     return (
-        <Form onSubmit={_handleSubmit}>
+        <Form onSubmit={searchImage}>
             <div className="field has-addons">
                 <div className="control has-icons-left has-icons-right ">
                     <input
                         className="input is-large"
-                        onChange={_handleChange}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         type="text"
-                        placeholder="Movie to see.." />
+                        placeholder="Gist to see.." />
                     <span className="icon is-small is-left">
                         <img alt="magnifying-glass" src="https://img.icons8.com/plasticine/100/000000/google-web-search.png" />
                     </span>
@@ -81,6 +49,7 @@ function Search(props) {
                     </button>
                 </div>
             </div>
+            {(error) ? <Error404 /> : null}
         </Form>
     )
 }
