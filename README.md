@@ -1,4 +1,4 @@
-# Project Title
+# github-test-react
 React Single Page Application demo that uses Github Gist API to show all public gists for an user.
 
 ## Description
