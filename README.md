@@ -45,7 +45,7 @@ or
 $ yarn build
 ```
 
-## Live Demo (eg. Now)
+## Live Demo
 I have deployed the demo application into Netlify server. 
 * Live Demo URL: [https://github-test-react.netlify.app/](https://github-test-react.netlify.app/)
 
